@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		080DB865DEA3C4BE77625FEC /* Pods_MyChatGPT_MyChatGPTUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FB9E1E028F3C2D5338EF597 /* Pods_MyChatGPT_MyChatGPTUITests.framework */; };
 		4F9B7F1B29AB9EC2000F2EBB /* MyChatGPTApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9B7F1A29AB9EC2000F2EBB /* MyChatGPTApp.swift */; };
 		4F9B7F1D29AB9EC2000F2EBB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9B7F1C29AB9EC2000F2EBB /* ContentView.swift */; };
 		4F9B7F1F29AB9EC4000F2EBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F9B7F1E29AB9EC4000F2EBB /* Assets.xcassets */; };
@@ -14,6 +15,12 @@
 		4F9B7F2C29AB9EC4000F2EBB /* MyChatGPTTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9B7F2B29AB9EC4000F2EBB /* MyChatGPTTests.swift */; };
 		4F9B7F3629AB9EC4000F2EBB /* MyChatGPTUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9B7F3529AB9EC4000F2EBB /* MyChatGPTUITests.swift */; };
 		4F9B7F3829AB9EC4000F2EBB /* MyChatGPTUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9B7F3729AB9EC4000F2EBB /* MyChatGPTUITestsLaunchTests.swift */; };
+		4F9B7F4529ABA017000F2EBB /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9B7F4429ABA017000F2EBB /* Settings.swift */; };
+		4F9B7F4729ABA20D000F2EBB /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9B7F4629ABA20D000F2EBB /* ChatView.swift */; };
+		4F9B7F4929ABA2C1000F2EBB /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9B7F4829ABA2C1000F2EBB /* Store.swift */; };
+		4F9B7F4B29ABA3D6000F2EBB /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 4F9B7F4A29ABA3D5000F2EBB /* Podfile */; };
+		93E5A60944CD1628F39040C3 /* Pods_MyChatGPT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99A3974A1B8883E76CF36BFD /* Pods_MyChatGPT.framework */; };
+		E9232ECE357BCA8171EC470A /* Pods_MyChatGPTTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3555F698E6D8D5ED4BA41066 /* Pods_MyChatGPTTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +41,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1F7C3A0206A7F217603B703C /* Pods-MyChatGPT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyChatGPT.release.xcconfig"; path = "Target Support Files/Pods-MyChatGPT/Pods-MyChatGPT.release.xcconfig"; sourceTree = "<group>"; };
+		3555F698E6D8D5ED4BA41066 /* Pods_MyChatGPTTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyChatGPTTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3FB9E1E028F3C2D5338EF597 /* Pods_MyChatGPT_MyChatGPTUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyChatGPT_MyChatGPTUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F9B7F1729AB9EC2000F2EBB /* MyChatGPT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyChatGPT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F9B7F1A29AB9EC2000F2EBB /* MyChatGPTApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChatGPTApp.swift; sourceTree = "<group>"; };
 		4F9B7F1C29AB9EC2000F2EBB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -44,6 +54,16 @@
 		4F9B7F3129AB9EC4000F2EBB /* MyChatGPTUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyChatGPTUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F9B7F3529AB9EC4000F2EBB /* MyChatGPTUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChatGPTUITests.swift; sourceTree = "<group>"; };
 		4F9B7F3729AB9EC4000F2EBB /* MyChatGPTUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChatGPTUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		4F9B7F4429ABA017000F2EBB /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		4F9B7F4629ABA20D000F2EBB /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		4F9B7F4829ABA2C1000F2EBB /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		4F9B7F4A29ABA3D5000F2EBB /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		99A3974A1B8883E76CF36BFD /* Pods_MyChatGPT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyChatGPT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2B54FAC0B3BF2C879AF9288 /* Pods-MyChatGPT-MyChatGPTUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyChatGPT-MyChatGPTUITests.debug.xcconfig"; path = "Target Support Files/Pods-MyChatGPT-MyChatGPTUITests/Pods-MyChatGPT-MyChatGPTUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		D50795870DBB2AF3F783C14B /* Pods-MyChatGPTTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyChatGPTTests.release.xcconfig"; path = "Target Support Files/Pods-MyChatGPTTests/Pods-MyChatGPTTests.release.xcconfig"; sourceTree = "<group>"; };
+		E7CDB5CC33C951D0193E6CF7 /* Pods-MyChatGPTTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyChatGPTTests.debug.xcconfig"; path = "Target Support Files/Pods-MyChatGPTTests/Pods-MyChatGPTTests.debug.xcconfig"; sourceTree = "<group>"; };
+		EAF656196836E764C4104FE6 /* Pods-MyChatGPT-MyChatGPTUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyChatGPT-MyChatGPTUITests.release.xcconfig"; path = "Target Support Files/Pods-MyChatGPT-MyChatGPTUITests/Pods-MyChatGPT-MyChatGPTUITests.release.xcconfig"; sourceTree = "<group>"; };
+		F5BFDBD4A76858A72FF1DE66 /* Pods-MyChatGPT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyChatGPT.debug.xcconfig"; path = "Target Support Files/Pods-MyChatGPT/Pods-MyChatGPT.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93E5A60944CD1628F39040C3 /* Pods_MyChatGPT.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9232ECE357BCA8171EC470A /* Pods_MyChatGPTTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				080DB865DEA3C4BE77625FEC /* Pods_MyChatGPT_MyChatGPTUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,10 +97,13 @@
 		4F9B7F0E29AB9EC2000F2EBB = {
 			isa = PBXGroup;
 			children = (
+				4F9B7F4A29ABA3D5000F2EBB /* Podfile */,
 				4F9B7F1929AB9EC2000F2EBB /* MyChatGPT */,
 				4F9B7F2A29AB9EC4000F2EBB /* MyChatGPTTests */,
 				4F9B7F3429AB9EC4000F2EBB /* MyChatGPTUITests */,
 				4F9B7F1829AB9EC2000F2EBB /* Products */,
+				52111B48F09D7D72553492CF /* Pods */,
+				659F778F508CC4D5FCB5938B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -98,6 +124,9 @@
 				4F9B7F1C29AB9EC2000F2EBB /* ContentView.swift */,
 				4F9B7F1E29AB9EC4000F2EBB /* Assets.xcassets */,
 				4F9B7F2029AB9EC4000F2EBB /* Preview Content */,
+				4F9B7F4429ABA017000F2EBB /* Settings.swift */,
+				4F9B7F4629ABA20D000F2EBB /* ChatView.swift */,
+				4F9B7F4829ABA2C1000F2EBB /* Store.swift */,
 			);
 			path = MyChatGPT;
 			sourceTree = "<group>";
@@ -127,6 +156,29 @@
 			path = MyChatGPTUITests;
 			sourceTree = "<group>";
 		};
+		52111B48F09D7D72553492CF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F5BFDBD4A76858A72FF1DE66 /* Pods-MyChatGPT.debug.xcconfig */,
+				1F7C3A0206A7F217603B703C /* Pods-MyChatGPT.release.xcconfig */,
+				D2B54FAC0B3BF2C879AF9288 /* Pods-MyChatGPT-MyChatGPTUITests.debug.xcconfig */,
+				EAF656196836E764C4104FE6 /* Pods-MyChatGPT-MyChatGPTUITests.release.xcconfig */,
+				E7CDB5CC33C951D0193E6CF7 /* Pods-MyChatGPTTests.debug.xcconfig */,
+				D50795870DBB2AF3F783C14B /* Pods-MyChatGPTTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		659F778F508CC4D5FCB5938B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				99A3974A1B8883E76CF36BFD /* Pods_MyChatGPT.framework */,
+				3FB9E1E028F3C2D5338EF597 /* Pods_MyChatGPT_MyChatGPTUITests.framework */,
+				3555F698E6D8D5ED4BA41066 /* Pods_MyChatGPTTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -134,9 +186,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4F9B7F3B29AB9EC4000F2EBB /* Build configuration list for PBXNativeTarget "MyChatGPT" */;
 			buildPhases = (
+				DDB0BF0E6AA38235B73ECD5C /* [CP] Check Pods Manifest.lock */,
 				4F9B7F1329AB9EC2000F2EBB /* Sources */,
 				4F9B7F1429AB9EC2000F2EBB /* Frameworks */,
 				4F9B7F1529AB9EC2000F2EBB /* Resources */,
+				B84DF3BC637F7B4952CD27E9 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -151,6 +205,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4F9B7F3E29AB9EC4000F2EBB /* Build configuration list for PBXNativeTarget "MyChatGPTTests" */;
 			buildPhases = (
+				C64F9426E81403E6904148B2 /* [CP] Check Pods Manifest.lock */,
 				4F9B7F2329AB9EC4000F2EBB /* Sources */,
 				4F9B7F2429AB9EC4000F2EBB /* Frameworks */,
 				4F9B7F2529AB9EC4000F2EBB /* Resources */,
@@ -169,9 +224,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4F9B7F4129AB9EC4000F2EBB /* Build configuration list for PBXNativeTarget "MyChatGPTUITests" */;
 			buildPhases = (
+				37759906E5363CDCD669B2EF /* [CP] Check Pods Manifest.lock */,
 				4F9B7F2D29AB9EC4000F2EBB /* Sources */,
 				4F9B7F2E29AB9EC4000F2EBB /* Frameworks */,
 				4F9B7F2F29AB9EC4000F2EBB /* Resources */,
+				1B51A384A0F350C0A98DB169 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -231,6 +288,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F9B7F4B29ABA3D6000F2EBB /* Podfile in Resources */,
 				4F9B7F2229AB9EC4000F2EBB /* Preview Assets.xcassets in Resources */,
 				4F9B7F1F29AB9EC4000F2EBB /* Assets.xcassets in Resources */,
 			);
@@ -252,11 +310,117 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1B51A384A0F350C0A98DB169 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MyChatGPT-MyChatGPTUITests/Pods-MyChatGPT-MyChatGPTUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MyChatGPT-MyChatGPTUITests/Pods-MyChatGPT-MyChatGPTUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MyChatGPT-MyChatGPTUITests/Pods-MyChatGPT-MyChatGPTUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		37759906E5363CDCD669B2EF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MyChatGPT-MyChatGPTUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B84DF3BC637F7B4952CD27E9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MyChatGPT/Pods-MyChatGPT-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MyChatGPT/Pods-MyChatGPT-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MyChatGPT/Pods-MyChatGPT-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C64F9426E81403E6904148B2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MyChatGPTTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DDB0BF0E6AA38235B73ECD5C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MyChatGPT-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		4F9B7F1329AB9EC2000F2EBB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F9B7F4929ABA2C1000F2EBB /* Store.swift in Sources */,
+				4F9B7F4729ABA20D000F2EBB /* ChatView.swift in Sources */,
+				4F9B7F4529ABA017000F2EBB /* Settings.swift in Sources */,
 				4F9B7F1D29AB9EC2000F2EBB /* ContentView.swift in Sources */,
 				4F9B7F1B29AB9EC2000F2EBB /* MyChatGPTApp.swift in Sources */,
 			);
@@ -411,6 +575,7 @@
 		};
 		4F9B7F3C29AB9EC4000F2EBB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F5BFDBD4A76858A72FF1DE66 /* Pods-MyChatGPT.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -440,6 +605,7 @@
 		};
 		4F9B7F3D29AB9EC4000F2EBB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1F7C3A0206A7F217603B703C /* Pods-MyChatGPT.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -469,8 +635,8 @@
 		};
 		4F9B7F3F29AB9EC4000F2EBB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E7CDB5CC33C951D0193E6CF7 /* Pods-MyChatGPTTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -489,8 +655,8 @@
 		};
 		4F9B7F4029AB9EC4000F2EBB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D50795870DBB2AF3F783C14B /* Pods-MyChatGPTTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -509,8 +675,8 @@
 		};
 		4F9B7F4229AB9EC4000F2EBB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D2B54FAC0B3BF2C879AF9288 /* Pods-MyChatGPT-MyChatGPTUITests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = W3552Q3Q6S;
@@ -527,8 +693,8 @@
 		};
 		4F9B7F4329AB9EC4000F2EBB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EAF656196836E764C4104FE6 /* Pods-MyChatGPT-MyChatGPTUITests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = W3552Q3Q6S;
