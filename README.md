@@ -2,4 +2,4 @@
 ChatGPT client app
 
 
-[![Watch the video](https://img.youtube.com/vi/dy1GxtKFu5g/maxresdefault.jpg)]([https://youtu.be/vt5fpE0bzSY](https://youtube.com/shorts/dy1GxtKFu5g))
+[![Watch the video](https://img.youtube.com/vi8QoN0b6mIYo/maxresdefault.jpg)]([https://youtu.be/8QoN0b6mIYo](https://youtu.be/8QoN0b6mIYo))
