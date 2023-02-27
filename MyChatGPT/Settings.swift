@@ -36,14 +36,20 @@ struct Settings: View {
                 .toolbar {
                     ToolbarItemGroup(placement: .keyboard) {
                         Spacer()
-                            .padding()
+                            .padding(.leading)
+                        
+                        
                         Button("SAVE") {
                             store.saveKey(openAiKey: openAiKey)
                             hideKeyboard()
                             openAiKey = ""
                         }
-                        .frame(alignment: .trailing)
+                        //.padding(.trailing)
+                        //.frame(alignment: .trailing)
                         .font(.system(size: 20, weight: .heavy, design: .rounded))
+                
+                        Spacer()
+                            .padding(.trailing)
                     }
                 }
             }
