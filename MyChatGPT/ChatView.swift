@@ -70,12 +70,7 @@ struct ChatView: View {
                     })
                 }
                 .padding(.all)
-                //.frame(height: tableHeight)
-                
-                //Spacer()
-                 //   .frame(height: 20)
 
-                
                 Group {
 
                     HStack {
@@ -160,7 +155,6 @@ struct ChatView: View {
                     }
 
             }
-            //.background(Color(uiColor: .systemBackground))
         }
         .onTapGesture(count: 1) {
             hideKeyboard()

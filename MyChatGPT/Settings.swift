@@ -44,8 +44,6 @@ struct Settings: View {
                             hideKeyboard()
                             openAiKey = ""
                         }
-                        //.padding(.trailing)
-                        //.frame(alignment: .trailing)
                         .font(.system(size: 20, weight: .heavy, design: .rounded))
                 
                         Spacer()
