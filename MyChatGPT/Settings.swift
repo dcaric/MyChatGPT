@@ -45,6 +45,12 @@ struct Settings: View {
                             openAiKey = ""
                         }
                         .font(.system(size: 20, weight: .heavy, design: .rounded))
+                        
+                        Button("CANCEL") {
+                            hideKeyboard()
+                            openAiKey = ""
+                        }
+                        .font(.system(size: 20, weight: .heavy, design: .rounded))
                 
                         Spacer()
                             .padding(.trailing)

@@ -16,7 +16,8 @@ struct ChatView: View {
     @State var store = Store()
     @State var response: String = ""
     @State var loadedOnce: Bool = true
-    
+    @State var showsAlert = false
+
     @State var items = [Int]()
     
     //@State var  historyList = ["dario", "ok"]
@@ -24,8 +25,50 @@ struct ChatView: View {
     var body: some View {
         ZStack {
             VStack {
-                Label("ChatGPT", systemImage: "brain.head.profile")
-                    .font(Font.custom("Helvetica Neue", size: 30))
+                HStack {
+                    Spacer()
+                    
+                    Label("ChatGPT", systemImage: "brain.head.profile")
+                        .font(Font.custom("Helvetica Neue", size: 30))
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        //store.deleteHistory()
+                        //historyList = [String]()
+                        showsAlert = true
+                        
+                    }) {
+                        HStack {
+                            Image(systemName: "trash")
+                        }
+                    }
+                    .padding(.pi*3)
+                    .foregroundColor(.white)
+                    .background(Color(uiColor: .systemBlue))
+                    .cornerRadius(.infinity)
+                    
+                    Spacer()
+                }
+                .alert(isPresented: $showsAlert) {
+                    Alert(
+                        title: Text("Delete all chat history"),
+                        message: Text(""),
+                        primaryButton: .default(
+                            Text("Cancel")
+                        ),
+                        secondaryButton: .destructive(
+                            Text("Delete"),
+                            action: {
+                                showsAlert = false
+                                store.deleteHistory()
+                                historyList = [String]()
+                                items = [Int]()
+                            }
+                        )
+                    )
+                        
+                }
                 
                 
                 ScrollViewReader { scrollProxy in

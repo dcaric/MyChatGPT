@@ -111,6 +111,10 @@ public class Store: ObservableObject {
         return wholeContext != "" ? wholeContext : "Welocome !"
     }
     
+    
+    func deleteHistory() {
+        UserDefaults.standard.set("", forKey: "conversation")
+    }
 
     
 }
