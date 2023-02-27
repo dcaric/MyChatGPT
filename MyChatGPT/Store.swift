@@ -25,14 +25,20 @@ public class Store: ObservableObject {
         
         if let conversation: String = try? UserDefaults.standard.string(forKey: "conversation") {
             wholeContext = conversation + newQuestion
+        } else {
+            wholeContext = newQuestion
         }
+        
+        var wholeContextForGPT = wholeContext.replacingOccurrences(of: "$#$", with: ">")
+        wholeContextForGPT = wholeContext.replacingOccurrences(of: "SENTENCE_END", with: ">")
+
         
         print("1) wholeContext: \(wholeContext)")
         
         let url = "https://api.openai.com/v1/completions"
         let parameters: [String: Any] = [
             "model": "text-davinci-003",
-            "prompt": wholeContext,
+            "prompt": wholeContextForGPT,
             "temperature": 0.7,
             "max_tokens": 1000,
             "stop" : "None",
@@ -52,7 +58,11 @@ public class Store: ObservableObject {
                 
                 if let text = json["choices"][0]["text"].string {
                     if (text != "") {
-                        wholeContext = wholeContext + text
+                        // just in case remove tags
+                        var cleanTxt = text.replacingOccurrences(of: "$#$", with: "")
+                        cleanTxt = cleanTxt.replacingOccurrences(of: "SENTENCE_END", with: "")
+                        
+                        wholeContext = wholeContext + "$#$" + cleanTxt + "SENTENCE_END"
                         wholeContext = wholeContext.replacingOccurrences(of: "\n", with: " ")
                         UserDefaults.standard.set(wholeContext, forKey: "conversation")
                     }
@@ -87,6 +97,18 @@ public class Store: ObservableObject {
             apiKey = openaikey
         }
         return apiKey != "" ? true : false
+    }
+    
+    func readHistory() -> String {
+        var wholeContext: String = ""
+
+        if let conversation: String = try? UserDefaults.standard.string(forKey: "conversation") {
+            wholeContext = conversation
+        }
+        
+        print("wholeContext:\(wholeContext)")
+        
+        return wholeContext != "" ? wholeContext : "Welocome !"
     }
     
 

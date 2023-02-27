@@ -15,20 +15,26 @@ struct ChatView: View {
     @State var question: String = ""
     @State var store = Store()
     @State var response: String = ""
+    @State var loadedOnce: Bool = true
+    
+    //@State var  historyList = ["dario", "ok"]
 
     var body: some View {
         ZStack {
             VStack {
-                NavigationView {
-                    List {
-                        ForEach(historyList.indices, id: \.self) { rowIndex in
-                            HStack {
-                                if (rowIndex % 2 == 1 ) {
+                Label("ChatGPT", systemImage: "brain.head.profile")
+                    .font(Font.custom("Helvetica Neue", size: 30))
+                
+                
+                List {
+                    ForEach(historyList.indices, id: \.self) { rowIndex in
+                        HStack {
+                                if (rowIndex % 2 == 1) {
                                     Text(historyList[rowIndex])
                                         .padding()
                                         .frame(alignment:  .leading )
                                         .background(Color(uiColor: .lightGray))
-                                        .foregroundColor(Color(uiColor: .white))
+                                        .foregroundColor(Color(uiColor: .black))
                                         .cornerRadius(16)
                                         .font(Font.custom("Helvetica Neue", size: 20))
                                     Spacer()
@@ -46,77 +52,49 @@ struct ChatView: View {
                                         .cornerRadius(16)
                                         .font(Font.custom("Helvetica Neue", size: 20))
                                 }
-                               
-                            }
-                            .frame(maxWidth: .infinity, alignment: rowIndex % 2 == 1 ? .leading : .trailing)
-
                         }
+                        .frame(maxWidth: .infinity, alignment: rowIndex % 2 == 1 ? .leading : .trailing)
 
                     }
-                    //.background(.blue)
-                    .navigationTitle("ChatGPT")
-                    .listRowSeparator(.hidden)
-                    //.scrollContentBackground(.hidden)
-                    .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+                    //.padding()
+                    //.background(Color(uiColor: .systemBackground))
 
-                    }
-                    .onTapGesture(count: 1) {
-                        hideKeyboard()
-                        tableHeight = 20
-                    }
-                    .onChange(of: historyList) { _ in
-                        
-                    }
                 }
-                
-                
+                .listStyle(.plain)
+                //.background(Color(uiColor: .systemBackground))
+                //.scrollIndicators(ScrollIndicatorVisibility.hidden)
+                .listRowSeparator(.hidden)
+                .scrollContentBackground(.hidden)
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+
+                }
+                .onTapGesture(count: 1) {
+                    hideKeyboard()
+                    tableHeight = 20
+                }
+
                 Spacer()
                     .frame(height: tableHeight)
 
+
                 
                 Group {
-                    ZStack {
-                        //Spacer()
+
+                    HStack {
                         
                         TextEditor(text: $question)
                             .frame(height: heightForInput)
+                            //.cornerRadius(20)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
                             .overlay(
                                 RoundedRectangle(cornerRadius: 16)
                                     .stroke(Color(uiColor: .systemGray5), lineWidth: 4)
                             )
-                            .frame(width: 380)
+                            .frame(width: UIScreen.main.bounds.size.width - 120)
+                            .padding(.all)
                             .font(Font.custom("Helvetica Neue", size: 15))
-                            .toolbar {
-                                ToolbarItemGroup(placement: .keyboard) {
-                                    Spacer()
-                                        .padding()
-                                    Button("SEND") {
-                                        //hideKeyboard()
-                                        historyList.append(question)
-                                        historyList.append("...")
-                                        store.context(newQuestion: question) { (result: Result) in
-                                            switch result {
-                                            case .success(let text):
-                                                print("PRINT [\(text)]")
-                                                if (text == "") {
-                                                    response = "I already answered that"
-                                                } else {
-                                                    response = text
-                                                    historyList.removeLast()
-                                                    historyList.append(text)
-                                                }
-                                            case .failure(let error):
-                                                print("Error generating text: \(error)")
-                                            }
-                                        }
-                                    }
-                                    .frame(alignment: .trailing)
-                                    .font(.system(size: 20, weight: .heavy, design: .rounded))
-                                }
-                            }
                         
                         Text(question)
-                            //.frame(width: 400)
                             .frame(maxHeight: 56)
                             .hidden()
                             .font(Font.custom("Helvetica Neue", size: 15))
@@ -131,24 +109,83 @@ struct ChatView: View {
                                         }
                                     })
                             })
-                    }
-                    .onAppear() {
-                        UITextField.appearance().clearButtonMode = .whileEditing
                         
-                    }
+                        Button(action: {
+                            historyList.append(question)
+                            historyList.append("...")
+                            store.context(newQuestion: question) { (result: Result) in
+                                switch result {
+                                case .success(var text):
+                                    print("PRINT [\(text)]")
+                                    if (text == "") {
+                                        response = "I already answered that"
+                                    } else {
+                                        //loadedOnce = true
+                                        text = text.replacingOccurrences(of: "\n", with: "")
+                                        text = text.replacingOccurrences(of: "$#$", with: "")
+                                        text = text.replacingOccurrences(of: "SENTENCE_END", with: "")
+                                        response = text
 
-                } // Group 2
+                                        historyList.removeLast()
+                                        historyList.append(text)
+                                        question = ""
+                                    }
+                                case .failure(let error):
+                                    print("Error generating text: \(error)")
+                                }
+                            }
+                        }) {
+                            HStack {
+                                Image(systemName: "arrow.up")
+                            }
+                        }
+                        .padding(.all)
+                        .foregroundColor(.white)
+                        .background(Color.gray)
+                        .cornerRadius(.infinity)
+                        
+                        }
+                        .onAppear() {
+                            UITextField.appearance().clearButtonMode = .whileEditing
+                            
+                        }
+                    
+
+                    
+                    }
 
             }
-            
+            .background(Color(uiColor: .systemBackground))
         }
         .tabItem {
             Label("Chat", systemImage: "character.bubble")
         }
         .tag(2)
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+            print("READ HISTORY")
+            _ = store.readHistory()
 
         }
+        .onAppear {
+            print("READ HISTORY loadedOnce\(loadedOnce)")
+            if (loadedOnce) {
+                loadedOnce = false
+                print("READ HISTORY")
+                let wholeConversation = store.readHistory()
+                let  wholeConversationList = wholeConversation.components(separatedBy: "SENTENCE_END")
+                for item in wholeConversationList {
+                    let subItem = item.components(separatedBy: "$#$")
+                    if (subItem.count == 2) {
+                        historyList.append(subItem[0])
+                        historyList.append(subItem[1])
+                    }
+                }
+            }
+        }
+        .onChange(of: historyList, perform: { value in
+
+            
+        })
     }
 }
 
