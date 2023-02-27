@@ -17,10 +17,14 @@ struct ChatView: View {
     @State var response: String = ""
     @State var loadedOnce: Bool = true
     @State var showsAlert = false
+    
+    @State var loading = DotView()
+    
+
 
     @State var items = [Int]()
     
-    //@State var  historyList = ["dario", "ok"]
+    //@State var  historyList = ["dario", "..."] // for testing
 
     var body: some View {
         ZStack {
@@ -76,13 +80,18 @@ struct ChatView: View {
                         ForEach(historyList.indices, id: \.self) { rowIndex in
                             HStack {
                                     if (rowIndex % 2 == 1) {
-                                        Text(historyList[rowIndex])
-                                            .padding()
-                                            .frame(alignment:  .leading )
-                                            .background(Color(uiColor: .lightGray))
-                                            .foregroundColor(Color(uiColor: .black))
-                                            .cornerRadius(16)
-                                            .font(Font.custom("Helvetica Neue", size: 20))
+                                        if (historyList[rowIndex] == "...") {
+                                            LoadingView()
+
+                                        } else {
+                                            Text(historyList[rowIndex])
+                                                .padding()
+                                                .frame(alignment:  .leading )
+                                                .background(Color(uiColor: .lightGray))
+                                                .foregroundColor(Color(uiColor: .black))
+                                                .cornerRadius(16)
+                                                .font(Font.custom("Helvetica Neue", size: 20))
+                                        }
                                         Spacer()
                                             .frame(width: 10)
                                             .padding()
@@ -104,6 +113,9 @@ struct ChatView: View {
                             
                         }
                     })
+                    //HStack {
+                    //    Button("Last!") { withAnimation { scrollProxy.scrollTo(items.last!) } }
+                    //}
                     .onTapGesture(count: 1) {
                         hideKeyboard()
                         //tableHeight = 20
@@ -151,6 +163,7 @@ struct ChatView: View {
                             historyList.append("...")
                             if (items.count > 0) {
                                 items.append(items.last! + 1)
+                                items.append(items.last! + 1)
                             }
                             store.context(newQuestion: question) { (result: Result) in
                                 switch result {
@@ -169,6 +182,7 @@ struct ChatView: View {
                                         historyList.append(text)
                                         question = ""
                                         if (items.count > 0) {
+                                            items.removeLast()
                                             items.append(items.last! + 1)
                                         }
                                     }
@@ -191,6 +205,7 @@ struct ChatView: View {
                             UITextField.appearance().clearButtonMode = .whileEditing
                             //tableHeight = 200
                         }
+
 
                     
 

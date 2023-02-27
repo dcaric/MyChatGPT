@@ -19,6 +19,7 @@
 		4F9B7F4729ABA20D000F2EBB /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9B7F4629ABA20D000F2EBB /* ChatView.swift */; };
 		4F9B7F4929ABA2C1000F2EBB /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9B7F4829ABA2C1000F2EBB /* Store.swift */; };
 		4F9B7F4B29ABA3D6000F2EBB /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 4F9B7F4A29ABA3D5000F2EBB /* Podfile */; };
+		4F9B7F4D29AD31D4000F2EBB /* DotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9B7F4C29AD31D4000F2EBB /* DotView.swift */; };
 		93E5A60944CD1628F39040C3 /* Pods_MyChatGPT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99A3974A1B8883E76CF36BFD /* Pods_MyChatGPT.framework */; };
 		E9232ECE357BCA8171EC470A /* Pods_MyChatGPTTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3555F698E6D8D5ED4BA41066 /* Pods_MyChatGPTTests.framework */; };
 /* End PBXBuildFile section */
@@ -58,6 +59,7 @@
 		4F9B7F4629ABA20D000F2EBB /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		4F9B7F4829ABA2C1000F2EBB /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		4F9B7F4A29ABA3D5000F2EBB /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		4F9B7F4C29AD31D4000F2EBB /* DotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DotView.swift; sourceTree = "<group>"; };
 		99A3974A1B8883E76CF36BFD /* Pods_MyChatGPT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyChatGPT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2B54FAC0B3BF2C879AF9288 /* Pods-MyChatGPT-MyChatGPTUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyChatGPT-MyChatGPTUITests.debug.xcconfig"; path = "Target Support Files/Pods-MyChatGPT-MyChatGPTUITests/Pods-MyChatGPT-MyChatGPTUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		D50795870DBB2AF3F783C14B /* Pods-MyChatGPTTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyChatGPTTests.release.xcconfig"; path = "Target Support Files/Pods-MyChatGPTTests/Pods-MyChatGPTTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				4F9B7F4429ABA017000F2EBB /* Settings.swift */,
 				4F9B7F4629ABA20D000F2EBB /* ChatView.swift */,
 				4F9B7F4829ABA2C1000F2EBB /* Store.swift */,
+				4F9B7F4C29AD31D4000F2EBB /* DotView.swift */,
 			);
 			path = MyChatGPT;
 			sourceTree = "<group>";
@@ -421,6 +424,7 @@
 				4F9B7F4929ABA2C1000F2EBB /* Store.swift in Sources */,
 				4F9B7F4729ABA20D000F2EBB /* ChatView.swift in Sources */,
 				4F9B7F4529ABA017000F2EBB /* Settings.swift in Sources */,
+				4F9B7F4D29AD31D4000F2EBB /* DotView.swift in Sources */,
 				4F9B7F1D29AB9EC2000F2EBB /* ContentView.swift in Sources */,
 				4F9B7F1B29AB9EC2000F2EBB /* MyChatGPTApp.swift in Sources */,
 			);
