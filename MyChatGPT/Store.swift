@@ -68,10 +68,12 @@ public class Store: ObservableObject {
                         //cleanTxt = cleanTxt.replacingOccurrences(of: "SENTENCE_END", with: "")
                         
                         wholeContext = wholeContext + " > " + text
+
                         UserDefaults.standard.set(wholeContext, forKey: "conversation")
                     }
                     
-                    text = text.replacingOccurrences(of: " > ", with: "")
+                    text = text.replacingOccurrences(of: " > ", with: " ")
+                    text = text.replacingOccurrences(of: ">", with: " ")
 
                     print("Answer: \(text)")
                     print("2) wholeContext: \(wholeContext)")
