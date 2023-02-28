@@ -18,15 +18,9 @@ struct ChatView: View {
     @State var response: String = ""
     @State var loadedOnce: Bool = true
     @State var showsAlert = false
-    
     @State var loading = DotView()
-    
-
-
     @State var items = [Int]()
     
-    //@State var  historyList = ["dario", "..."] // for testing
-
     var body: some View {
 
         ZStack {
@@ -107,37 +101,6 @@ struct ChatView: View {
                                     Spacer()
                                         .frame(width: 10)
                                 }
-                                
-                                
-                                /*
-                                    if (rowIndex % 2 == 1) {
-                                        if (historyList[rowIndex] == "...") {
-                                            LoadingView()
-
-                                        } else {
-                                            Text(historyList[rowIndex])
-                                                .padding()
-                                                .frame(alignment:  .leading )
-                                                .background(Color(uiColor: .lightGray))
-                                                .foregroundColor(Color(uiColor: .black))
-                                                .cornerRadius(16)
-                                                .font(Font.custom("Helvetica Neue", size: 20))
-                                        }
-                                        Spacer()
-                                            .frame(width: 10)
-                                            .padding()
-                                    } else {
-                                        Spacer()
-                                            .frame(width: 10)
-                                            .padding()
-                                        Text(historyList[rowIndex])
-                                            .padding()
-                                            .frame(alignment: .trailing)
-                                            .background(Color(uiColor: .systemBlue))
-                                            .foregroundColor(Color(uiColor: .white))
-                                            .cornerRadius(16)
-                                            .font(Font.custom("Helvetica Neue", size: 20))
-                                    }*/
                             }
                             .frame(maxWidth: .infinity, alignment: messages[rowIndex].messageOriginMe ? .trailing : .leading)
 
@@ -149,7 +112,6 @@ struct ChatView: View {
                     //}
                     .onTapGesture(count: 1) {
                         hideKeyboard()
-                        //tableHeight = 20
                     }
                     .onChange(of: items, perform: { _ in
                         scrollProxy.scrollTo(items.last!)
@@ -163,7 +125,6 @@ struct ChatView: View {
                         
                         TextEditor(text: $question)
                             .frame(height: heightForInput)
-                            //.cornerRadius(20)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .overlay(
                                 RoundedRectangle(cornerRadius: 16)
@@ -195,7 +156,6 @@ struct ChatView: View {
                             messages.append(oneMessage)
                             store.saveMessages(messages: messages)
 
-                            //historyList.append("...")
                             // add loading indicator
                             oneMessage = Store.Message.init(messageBody: "...", messageOriginMe: false, messageDate: Date())
                             messages = clearMessages(messages: messages)
@@ -212,21 +172,11 @@ struct ChatView: View {
                                     if (text == "") {
                                         response = "I already answered that"
                                     } else {
-                                        //loadedOnce = true
-                                        //text = text.replacingOccurrences(of: "\n", with: "")
-                                        //text = text.replacingOccurrences(of: "$#$", with: "")
-                                        //text = text.replacingOccurrences(of: "SENTENCE_END", with: "")
                                         response = text
-
-                                        //historyList.removeLast()
-                                        //historyList.append(text)
-                                        //messages.removeLast()
                                         messages = clearMessages(messages: messages)
                                         oneMessage = Store.Message.init(messageBody: text, messageOriginMe: false, messageDate: Date())
                                         messages.append(oneMessage)
-                                        
                                         store.saveMessages(messages: messages)
-
                                         question = ""
                                         if (items.count > 0) {
                                             items.removeLast()
@@ -250,15 +200,8 @@ struct ChatView: View {
                         }
                         .onAppear() {
                             UITextField.appearance().clearButtonMode = .whileEditing
-                            //tableHeight = 200
                         }
-
-
-                    
-
-                    
                     }
-
             }
         }
         .onTapGesture(count: 1) {
@@ -287,21 +230,6 @@ struct ChatView: View {
                     items.append(count)
                     count += 1
                 }
-                /*
-                let wholeConversation = store.readHistory()
-                let  wholeConversationList = wholeConversation.components(separatedBy: "SENTENCE_END")
-                var count = 0;
-                for item in wholeConversationList {
-                    let subItem = item.components(separatedBy: "$#$")
-                    if (subItem.count == 2) {
-                        historyList.append(subItem[0])
-                        items.append(count)
-                        count += 1
-                        historyList.append(subItem[1])
-                        items.append(count)
-                        count += 1
-                    }
-                }*/
             }
         }
         .onChange(of: historyList, perform: { value in
