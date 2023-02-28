@@ -21,6 +21,7 @@ struct ChatView: View {
     @State var loading = DotView()
     @State var items = [Int]()
     
+    
     var body: some View {
 
         ZStack {
@@ -82,24 +83,36 @@ struct ChatView: View {
                                 if (messages[rowIndex].messageOriginMe) {
                                     Spacer()
                                         .frame(width: 10)
-                                    Text(messages[rowIndex].messageBody)
-                                        .padding()
-                                        .frame(alignment: .trailing)
-                                        .background(Color(uiColor: .systemBlue))
-                                        .foregroundColor(Color(uiColor: .white))
-                                        .cornerRadius(16)
-                                        .font(Font.custom("Helvetica Neue", size: 20))
+                                    VStack {
+                                        Text(messages[rowIndex].messageBody)
+                                            .padding()
+                                            .frame(alignment: .trailing)
+                                            .background(Color(uiColor: .systemBlue))
+                                            .foregroundColor(Color(uiColor: .white))
+                                            .cornerRadius(16)
+                                            .font(Font.custom("Helvetica Neue", size: 20))
+                                                                            
+                                        Label(getDate(recDate: messages[rowIndex].messageDate), systemImage: "calendar.badge.clock")
+                                            .labelStyle(.titleOnly)
+                                            .font(Font.custom("Helvetica Neue", size: 12))
+                                    }
                                 } else {
                                     if (messages[rowIndex].messageBody == "...") {
                                         LoadingView()
 
                                     } else {
-                                        Text(messages[rowIndex].messageBody)
-                                            .padding()
-                                            .background(Color(uiColor: .lightGray))
-                                            .foregroundColor(Color(uiColor: .black))
-                                            .cornerRadius(16)
-                                            .font(Font.custom("Helvetica Neue", size: 20))
+                                        VStack {
+                                            Text(messages[rowIndex].messageBody)
+                                                .padding()
+                                                .background(Color(uiColor: .lightGray))
+                                                .foregroundColor(Color(uiColor: .black))
+                                                .cornerRadius(16)
+                                                .font(Font.custom("Helvetica Neue", size: 20))
+                                            
+                                            Label(getDate(recDate: messages[rowIndex].messageDate), systemImage: "calendar.badge.clock")
+                                                .labelStyle(.titleOnly)
+                                                .font(Font.custom("Helvetica Neue", size: 12))
+                                        }
                                     }
                                     Spacer()
                                         .frame(width: 10)
@@ -242,6 +255,13 @@ struct ChatView: View {
             items.append(count)
             count += 1
         }
+    }
+    
+    
+    func getDate(recDate: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm dd/MM/yyyy"
+        return formatter.string(from: recDate)
     }
 }
 
