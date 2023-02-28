@@ -12,6 +12,10 @@ import SwiftyJSON
 public class Store: ObservableObject {
     
     
+    
+    //**************************************************************************************
+    // MARK: OPENAI HTTP REQUEST AND RESPONSE
+    //**************************************************************************************
     func context(newQuestion: String, completion: @escaping (Result<String, Error>) -> Void) {
         
         var wholeContext: String = ""
@@ -24,21 +28,22 @@ public class Store: ObservableObject {
         
         
         if let conversation: String = try? UserDefaults.standard.string(forKey: "conversation") {
-            wholeContext = conversation + newQuestion
+            wholeContext = conversation + " > " + newQuestion
         } else {
             wholeContext = newQuestion
         }
         
-        var wholeContextForGPT = wholeContext.replacingOccurrences(of: "$#$", with: ">")
-        wholeContextForGPT = wholeContext.replacingOccurrences(of: "SENTENCE_END", with: ">")
+        //var wholeContextForGPT = wholeContext.replacingOccurrences(of: "$#$", with: ">")
+        //wholeContextForGPT = wholeContext.replacingOccurrences(of: "SENTENCE_END", with: ">")
 
-        
+        wholeContext = wholeContext.replacingOccurrences(of: "\n", with: "")
+
         print("1) wholeContext: \(wholeContext)")
         
         let url = "https://api.openai.com/v1/completions"
         let parameters: [String: Any] = [
             "model": "text-davinci-003",
-            "prompt": wholeContextForGPT,
+            "prompt": wholeContext,
             "temperature": 0.7,
             "max_tokens": 1000,
             "stop" : "None",
@@ -56,16 +61,18 @@ public class Store: ObservableObject {
                 print("json: \(json)")
 
                 
-                if let text = json["choices"][0]["text"].string {
+                if var text = json["choices"][0]["text"].string {
                     if (text != "") {
                         // just in case remove tags
-                        var cleanTxt = text.replacingOccurrences(of: "$#$", with: "")
-                        cleanTxt = cleanTxt.replacingOccurrences(of: "SENTENCE_END", with: "")
+                        text = text.replacingOccurrences(of: "\n", with: " ")
+                        //cleanTxt = cleanTxt.replacingOccurrences(of: "SENTENCE_END", with: "")
                         
-                        wholeContext = wholeContext + "$#$" + cleanTxt + "SENTENCE_END"
-                        wholeContext = wholeContext.replacingOccurrences(of: "\n", with: " ")
+                        wholeContext = wholeContext + " > " + text
                         UserDefaults.standard.set(wholeContext, forKey: "conversation")
                     }
+                    
+                    text = text.replacingOccurrences(of: " > ", with: "")
+
                     print("Answer: \(text)")
                     print("2) wholeContext: \(wholeContext)")
 
@@ -84,8 +91,12 @@ public class Store: ObservableObject {
         }
         
     }
+    //**************************************************************************************
+
     
-    
+    //**************************************************************************************
+    // MARK: OPENAI KEY
+    //**************************************************************************************
     func saveKey(openAiKey: String) {
         UserDefaults.standard.set(openAiKey, forKey: "openaikey")
 
@@ -98,7 +109,13 @@ public class Store: ObservableObject {
         }
         return apiKey != "" ? true : false
     }
+    //**************************************************************************************
+
     
+    
+    //**************************************************************************************
+    // MARK: HISTORY FOR CHATGPT
+    //**************************************************************************************
     func readHistory() -> String {
         var wholeContext: String = ""
 
@@ -115,6 +132,42 @@ public class Store: ObservableObject {
     func deleteHistory() {
         UserDefaults.standard.set("", forKey: "conversation")
     }
+    //**************************************************************************************
+
+    
+    //**************************************************************************************
+    //MARK: MESSAGES
+    //**************************************************************************************
+
+    struct Message : Codable {
+        var messageBody: String
+        var messageOriginMe: Bool
+        var messageDate: Date
+        
+        init(messageBody: String, messageOriginMe: Bool, messageDate: Date) {
+            self.messageBody = messageBody
+            self.messageOriginMe = messageOriginMe
+            self.messageDate = messageDate
+
+        }
+    }
+    
+    func readMessages() -> [Message] {
+        var messages = [Message]()
+        let defaults = UserDefaults.standard
+        if let data = defaults.data(forKey: "messages") {
+            messages = try! PropertyListDecoder().decode([Message].self, from: data)
+        }
+        return messages
+    }
+
+    func saveMessages(messages: [Message]) {
+        let array : [Message] = messages
+            if let data = try? PropertyListEncoder().encode(array) {
+                UserDefaults.standard.set(data, forKey: "messages")
+        }
+    }
+    //**************************************************************************************
 
     
 }

@@ -10,6 +10,7 @@ import SwiftUI
 struct ChatView: View {
     
     @State var historyList = [String]()
+    @State var messages = [Store.Message]()
     @State var tableHeight : CGFloat = .infinity
     @State var heightForInput: CGFloat = 30
     @State var question: String = ""
@@ -27,6 +28,7 @@ struct ChatView: View {
     //@State var  historyList = ["dario", "..."] // for testing
 
     var body: some View {
+
         ZStack {
             VStack {
                 HStack {
@@ -77,8 +79,37 @@ struct ChatView: View {
                 
                 ScrollViewReader { scrollProxy in
                     ScrollView (.vertical, showsIndicators: false, content: {
-                        ForEach(historyList.indices, id: \.self) { rowIndex in
+                        ForEach(messages.indices, id: \.self) { rowIndex in
                             HStack {
+                                
+                                if (messages[rowIndex].messageOriginMe) {
+                                    Spacer()
+                                        .frame(width: 10)
+                                    Text(messages[rowIndex].messageBody)
+                                        .padding()
+                                        .frame(alignment: .trailing)
+                                        .background(Color(uiColor: .systemBlue))
+                                        .foregroundColor(Color(uiColor: .white))
+                                        .cornerRadius(16)
+                                        .font(Font.custom("Helvetica Neue", size: 20))
+                                } else {
+                                    if (messages[rowIndex].messageBody == "...") {
+                                        LoadingView()
+
+                                    } else {
+                                        Text(messages[rowIndex].messageBody)
+                                            .padding()
+                                            .background(Color(uiColor: .lightGray))
+                                            .foregroundColor(Color(uiColor: .black))
+                                            .cornerRadius(16)
+                                            .font(Font.custom("Helvetica Neue", size: 20))
+                                    }
+                                    Spacer()
+                                        .frame(width: 10)
+                                }
+                                
+                                
+                                /*
                                     if (rowIndex % 2 == 1) {
                                         if (historyList[rowIndex] == "...") {
                                             LoadingView()
@@ -106,9 +137,9 @@ struct ChatView: View {
                                             .foregroundColor(Color(uiColor: .white))
                                             .cornerRadius(16)
                                             .font(Font.custom("Helvetica Neue", size: 20))
-                                    }
+                                    }*/
                             }
-                            .frame(maxWidth: .infinity, alignment: rowIndex % 2 == 1 ? .leading : .trailing)
+                            .frame(maxWidth: .infinity, alignment: messages[rowIndex].messageOriginMe ? .trailing : .leading)
 
                             
                         }
@@ -159,8 +190,17 @@ struct ChatView: View {
                             })
                         
                         Button(action: {
-                            historyList.append(question)
-                            historyList.append("...")
+                            // add new question
+                            var oneMessage = Store.Message.init(messageBody: question, messageOriginMe: true, messageDate: Date())
+                            messages.append(oneMessage)
+                            store.saveMessages(messages: messages)
+
+                            //historyList.append("...")
+                            // add loading indicator
+                            oneMessage = Store.Message.init(messageBody: "...", messageOriginMe: false, messageDate: Date())
+                            messages = clearMessages(messages: messages)
+                            messages.append(oneMessage)
+
                             if (items.count > 0) {
                                 items.append(items.last! + 1)
                                 items.append(items.last! + 1)
@@ -173,13 +213,20 @@ struct ChatView: View {
                                         response = "I already answered that"
                                     } else {
                                         //loadedOnce = true
-                                        text = text.replacingOccurrences(of: "\n", with: "")
-                                        text = text.replacingOccurrences(of: "$#$", with: "")
-                                        text = text.replacingOccurrences(of: "SENTENCE_END", with: "")
+                                        //text = text.replacingOccurrences(of: "\n", with: "")
+                                        //text = text.replacingOccurrences(of: "$#$", with: "")
+                                        //text = text.replacingOccurrences(of: "SENTENCE_END", with: "")
                                         response = text
 
-                                        historyList.removeLast()
-                                        historyList.append(text)
+                                        //historyList.removeLast()
+                                        //historyList.append(text)
+                                        //messages.removeLast()
+                                        messages = clearMessages(messages: messages)
+                                        oneMessage = Store.Message.init(messageBody: text, messageOriginMe: false, messageDate: Date())
+                                        messages.append(oneMessage)
+                                        
+                                        store.saveMessages(messages: messages)
+
                                         question = ""
                                         if (items.count > 0) {
                                             items.removeLast()
@@ -228,9 +275,19 @@ struct ChatView: View {
         }
         .onAppear {
             print("READ HISTORY loadedOnce: \(loadedOnce)")
+            
             if (loadedOnce) {
                 loadedOnce = false
-                print("READ HISTORY")
+                messages = store.readMessages()
+                messages = clearMessages(messages: messages)
+                print("READ HISTORY count:\(messages.count)")
+                var count = 0;
+                for message in messages {
+                    print("message: \(message.messageBody)")
+                    items.append(count)
+                    count += 1
+                }
+                /*
                 let wholeConversation = store.readHistory()
                 let  wholeConversationList = wholeConversation.components(separatedBy: "SENTENCE_END")
                 var count = 0;
@@ -244,7 +301,7 @@ struct ChatView: View {
                         items.append(count)
                         count += 1
                     }
-                }
+                }*/
             }
         }
         .onChange(of: historyList, perform: { value in
@@ -258,4 +315,14 @@ struct ChatView_Previews: PreviewProvider {
     static var previews: some View {
         ChatView()
     }
+}
+
+func clearMessages(messages: [Store.Message]) -> [Store.Message] {
+    var messagesFixed = [Store.Message]()
+    for message in messages {
+        if message.messageBody != "..." {
+            messagesFixed.append(message)
+        }
+    }
+    return messagesFixed
 }
