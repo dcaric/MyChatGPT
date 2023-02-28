@@ -260,7 +260,7 @@ struct ChatView: View {
     
     func getDate(recDate: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm dd/MM/yyyy"
+        formatter.dateFormat = "EEEE, MMM d yyyy, HH:mm"
         return formatter.string(from: recDate)
     }
 }
