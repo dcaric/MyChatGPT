@@ -64,6 +64,9 @@ struct ChatView: View {
                                 store.deleteHistory()
                                 historyList = [String]()
                                 items = [Int]()
+                                messages = [Store.Message]()
+                                store.saveMessages(messages: messages)
+                                loadValues()
                             }
                         )
                     )
@@ -114,7 +117,7 @@ struct ChatView: View {
                         hideKeyboard()
                     }
                     .onChange(of: items, perform: { _ in
-                        scrollProxy.scrollTo(items.last!)
+                        if (items.last != nil) { scrollProxy.scrollTo(items.last!) }
                     })
                 }
                 .padding(.all)
@@ -155,16 +158,17 @@ struct ChatView: View {
                             var oneMessage = Store.Message.init(messageBody: question, messageOriginMe: true, messageDate: Date())
                             messages.append(oneMessage)
                             store.saveMessages(messages: messages)
+                            print("items: [\(items)]")
+
+                            if (items.last == nil) { items.append(0) }
+                            else { items.append(items.last! + 1) }
 
                             // add loading indicator
                             oneMessage = Store.Message.init(messageBody: "...", messageOriginMe: false, messageDate: Date())
                             messages = clearMessages(messages: messages)
                             messages.append(oneMessage)
 
-                            if (items.count > 0) {
-                                items.append(items.last! + 1)
-                                items.append(items.last! + 1)
-                            }
+                            items.append(items.last! + 1)
                             store.context(newQuestion: question) { (result: Result) in
                                 switch result {
                                 case .success(var text):
@@ -178,10 +182,8 @@ struct ChatView: View {
                                         messages.append(oneMessage)
                                         store.saveMessages(messages: messages)
                                         question = ""
-                                        if (items.count > 0) {
-                                            items.removeLast()
-                                            items.append(items.last! + 1)
-                                        }
+                                        items.removeLast()
+                                        items.append(items.last! + 1)
                                     }
                                 case .failure(let error):
                                     print("Error generating text: \(error)")
@@ -221,21 +223,25 @@ struct ChatView: View {
             
             if (loadedOnce) {
                 loadedOnce = false
-                messages = store.readMessages()
-                messages = clearMessages(messages: messages)
-                print("READ HISTORY count:\(messages.count)")
-                var count = 0;
-                for message in messages {
-                    print("message: \(message.messageBody)")
-                    items.append(count)
-                    count += 1
-                }
+                loadValues()
             }
         }
         .onChange(of: historyList, perform: { value in
 
             
         })
+    }
+    
+    func loadValues() {
+        messages = store.readMessages()
+        messages = clearMessages(messages: messages)
+        print("READ HISTORY count:\(messages.count)")
+        var count = 0;
+        for message in messages {
+            print("message: \(message.messageBody)")
+            items.append(count)
+            count += 1
+        }
     }
 }
 
@@ -254,3 +260,5 @@ func clearMessages(messages: [Store.Message]) -> [Store.Message] {
     }
     return messagesFixed
 }
+
+
