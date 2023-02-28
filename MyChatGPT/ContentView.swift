@@ -15,18 +15,8 @@ struct ContentView: View {
     
     var body: some View {
         TabView {
+            
             // TAB - 1
-            ZStack {
-                settings
-            }
-            .tabItem {
-                Label("Settings", systemImage: "gear")
-            }
-            .tag(1)
-            .padding()
-            
-            
-            // TAB - 2
             ZStack {
                 chat
             }
@@ -35,6 +25,18 @@ struct ContentView: View {
             }
             .tag(1)
             .padding()
+            
+            
+            // TAB - 2
+            ZStack {
+                settings
+            }
+            .tabItem {
+                Label("Settings", systemImage: "gear")
+            }
+            .tag(1)
+            .padding()
+
         }
     }
 }
