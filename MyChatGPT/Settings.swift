@@ -12,6 +12,7 @@ struct Settings: View {
     @State var openAiKey: String = ""
     @StateObject var store = Store()
 
+
     
     var body: some View {
         ZStack {
@@ -57,6 +58,14 @@ struct Settings: View {
                     }
                 }
             }
+        }
+        .onAppear {
+            // this is not good, after optimization memeory is not up to date
+//            store.optimizeHistory(completion: { (resutl: String) in
+//                print("SUMMARIZED: \(resutl)")
+//
+//                UserDefaults.standard.set(resutl1, forKey: "conversation")
+//            })
         }
     }
 }

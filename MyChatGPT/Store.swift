@@ -91,8 +91,64 @@ public class Store: ObservableObject {
 
             }
         }
-        
     }
+
+    
+    func openAiRequest(wholeContext: String, completion: @escaping (Result<String, Error>) -> Void) {
+        var apiKey: String = ""
+
+        if let openaikey: String = try? UserDefaults.standard.string(forKey: "openaikey") {
+            apiKey = openaikey
+        }
+        
+        let url = "https://api.openai.com/v1/completions"
+        let parameters: [String: Any] = [
+            "model": "text-davinci-003",
+            "prompt": wholeContext,
+            "temperature": 0.7,
+            "max_tokens": 1000,
+            "stop" : "None",
+            "n" : 1
+            
+        ]
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(apiKey)",
+            "Content-Type": "application/json"
+        ]
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                let json = JSON(value)
+                print("json: \(json)")
+
+                
+                if var text = json["choices"][0]["text"].string {
+                    if (text != "") {
+                        // just in case remove tags
+                        text = text.replacingOccurrences(of: "\n", with: " ")
+
+                    }
+                    
+                    text = text.replacingOccurrences(of: " > ", with: " ")
+                    text = text.replacingOccurrences(of: ">", with: " ")
+
+                    print("Answer: \(text)")
+
+                    completion(.success(text))
+
+                } else {
+                    completion(.success("Server currently down"))
+
+                }
+            case .failure(let error):
+                print("ERROR:\(error)")
+                completion(.success("Server currently down"))
+
+
+            }
+        }
+    }
+    
     //**************************************************************************************
 
     
@@ -125,7 +181,7 @@ public class Store: ObservableObject {
             wholeContext = conversation
         }
         
-        print("wholeContext:\(wholeContext)")
+        print("conversation:\(wholeContext)")
         
         return wholeContext != "" ? wholeContext : "Welocome !"
     }
@@ -133,6 +189,35 @@ public class Store: ObservableObject {
     
     func deleteHistory() {
         UserDefaults.standard.set("", forKey: "conversation")
+    }
+    
+    func optimizeHistory(completion: @escaping (String) -> Void) {
+        var wholeContext: String = ""
+
+        if let conversation: String = try? UserDefaults.standard.string(forKey: "conversation") {
+            wholeContext = conversation + " > Optimize this conversation and give me summarized context about all"
+        }
+        
+        print("OPTIMIZE THIS CONVERSATION: \(wholeContext)")
+
+        
+        if (wholeContext != "") {
+            openAiRequest(wholeContext: wholeContext) { (result: Result) in
+                switch result {
+                case .success(var text):
+                    print("SUMMARIZED: \(text)")
+                    completion(text)
+                case .failure(let error):
+                    print("Error generating text: \(error)")
+                    completion("ERROR")
+                }
+            }
+        } else {
+            print("NO HISTORY TO OPTIMIZE")
+        }
+
+        
+        
     }
     //**************************************************************************************
 
