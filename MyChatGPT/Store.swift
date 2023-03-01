@@ -11,7 +11,7 @@ import SwiftyJSON
 
 public class Store: ObservableObject {
     
-    
+    let trasholdForZipingHistory: Int = 200
     
     //**************************************************************************************
     // MARK: OPENAI HTTP REQUEST AND RESPONSE
@@ -33,10 +33,20 @@ public class Store: ObservableObject {
             wholeContext = newQuestion
         }
         
-        //var wholeContextForGPT = wholeContext.replacingOccurrences(of: "$#$", with: ">")
-        //wholeContextForGPT = wholeContext.replacingOccurrences(of: "SENTENCE_END", with: ">")
-
+        // some cleaning
+        wholeContext = wholeContext.replacingOccurrences(of: " >  >  > ", with: ">")
+        wholeContext = wholeContext.replacingOccurrences(of: " >  > ", with: ">")
         wholeContext = wholeContext.replacingOccurrences(of: "\n", with: "")
+        
+        
+        // load old compressed conversation part
+        var coversationOld: String = ""
+        if let conversationHistory: String = try? UserDefaults.standard.string(forKey: "conversationHistory") {
+            coversationOld = conversationHistory
+        }
+        print("1) coversationOld: \(coversationOld)")
+
+        
 
         print("1) wholeContext: \(wholeContext)")
         
@@ -174,7 +184,7 @@ public class Store: ObservableObject {
     //**************************************************************************************
     // MARK: HISTORY FOR CHATGPT
     //**************************************************************************************
-    func readHistory() -> String {
+    func zipHistory() -> String {
         var wholeContext: String = ""
 
         if let conversation: String = try? UserDefaults.standard.string(forKey: "conversation") {
@@ -182,7 +192,42 @@ public class Store: ObservableObject {
         }
         
         print("conversation:\(wholeContext)")
+        print("conversation.count:\(wholeContext.count)")
+        var prepareForHistory: [String] = wholeContext.components(separatedBy: ">")
+        print("prepareForHistory.count:\(prepareForHistory.count)")
+        var prepareForHistoryPart1: String = ""
+        var prepareForHistoryPart2: String = ""
         
+        if (prepareForHistory.count >= trasholdForZipingHistory) {
+            
+            var n: Int = 0
+            while n < prepareForHistory.count {
+                if (n < prepareForHistory.count / 2) {
+                    prepareForHistoryPart1 = prepareForHistoryPart1 + prepareForHistory[n]
+                } else {
+                    prepareForHistoryPart2 = prepareForHistoryPart2 + prepareForHistory[n]
+                }
+                
+                n += 1
+            }
+            print("prepareForHistoryPart1:\(prepareForHistoryPart1)")
+            print("prepareForHistoryPart2:\(prepareForHistoryPart2)")
+            
+            
+            // overwrite conversation with a 2nd part of conversation
+            UserDefaults.standard.set(prepareForHistoryPart2, forKey: "conversation")
+
+            //UserDefaults.standard.set("", forKey: "conversationHistory") // delete all for testing
+            
+            // first part of conversation compress and save under conversationHistory
+            var coversationOld: String = ""
+            optimizeHistory(conversation: prepareForHistoryPart1) { result in
+                print("prepareForHistoryPart1 result:\(result)")
+                UserDefaults.standard.set(coversationOld, forKey: "conversationHistory")
+            }
+        }
+
+
         return wholeContext != "" ? wholeContext : "Welocome !"
     }
     
@@ -191,18 +236,13 @@ public class Store: ObservableObject {
         UserDefaults.standard.set("", forKey: "conversation")
     }
     
-    func optimizeHistory(completion: @escaping (String) -> Void) {
-        var wholeContext: String = ""
-
-        if let conversation: String = try? UserDefaults.standard.string(forKey: "conversation") {
-            wholeContext = conversation + " > Optimize this conversation and give me summarized context about all"
-        }
+    func optimizeHistory(conversation: String, completion: @escaping (String) -> Void) {
         
-        print("OPTIMIZE THIS CONVERSATION: \(wholeContext)")
+        print("OPTIMIZE THIS CONVERSATION: \(conversation)")
 
         
-        if (wholeContext != "") {
-            openAiRequest(wholeContext: wholeContext) { (result: Result) in
+        if (conversation != "") {
+            openAiRequest(wholeContext: conversation) { (result: Result) in
                 switch result {
                 case .success(var text):
                     print("SUMMARIZED: \(text)")

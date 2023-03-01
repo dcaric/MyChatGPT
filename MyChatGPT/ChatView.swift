@@ -230,7 +230,7 @@ struct ChatView: View {
         .tag(2)
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
             print("READ HISTORY")
-            _ = store.readHistory()
+            _ = store.zipHistory()
 
         }
         .onAppear {
