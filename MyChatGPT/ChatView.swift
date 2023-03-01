@@ -96,6 +96,7 @@ struct ChatView: View {
                                             .labelStyle(.titleOnly)
                                             .font(Font.custom("Helvetica Neue", size: 12))
                                     }
+                                    .textSelection(.enabled)
                                 } else {
                                     if (messages[rowIndex].messageBody == "...") {
                                         LoadingView()
@@ -113,6 +114,7 @@ struct ChatView: View {
                                                 .labelStyle(.titleOnly)
                                                 .font(Font.custom("Helvetica Neue", size: 12))
                                         }
+                                        .textSelection(.enabled)
                                     }
                                     Spacer()
                                         .frame(width: 10)
@@ -158,7 +160,7 @@ struct ChatView: View {
                             .background(GeometryReader { proxy in
                                 Color.clear
                                     .onChange(of: question, perform: { value in
-                                        print("height:\(proxy.size.height)")
+                                        //print("height:\(proxy.size.height)")
                                         heightForInput = proxy.size.height + 20.0
                                         if heightForInput > 56 {
                                             heightForInput = 56

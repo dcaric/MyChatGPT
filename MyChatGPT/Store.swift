@@ -64,10 +64,10 @@ public class Store: ObservableObject {
                 if var text = json["choices"][0]["text"].string {
                     if (text != "") {
                         // just in case remove tags
-                        text = text.replacingOccurrences(of: "\n", with: " ")
                         //cleanTxt = cleanTxt.replacingOccurrences(of: "SENTENCE_END", with: "")
                         
                         wholeContext = wholeContext + " > " + text
+                        wholeContext = wholeContext.replacingOccurrences(of: "\n", with: " ")
 
                         UserDefaults.standard.set(wholeContext, forKey: "conversation")
                     }
@@ -125,7 +125,7 @@ public class Store: ObservableObject {
                 if var text = json["choices"][0]["text"].string {
                     if (text != "") {
                         // just in case remove tags
-                        text = text.replacingOccurrences(of: "\n", with: " ")
+                        //text = text.replacingOccurrences(of: "\n", with: " ")
 
                     }
                     
