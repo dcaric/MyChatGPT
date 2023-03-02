@@ -6,21 +6,23 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct ChatView: View {
     
-    @State var historyList = [String]()
-    @State var messages = [Store.Message]()
-    @State var tableHeight : CGFloat = .infinity
-    @State var heightForInput: CGFloat = 30
-    @State var question: String = ""
-    @State var store = Store()
-    @State var response: String = ""
-    @State var loadedOnce: Bool = true
-    @State var showsAlert = false
-    @State var loading = DotView()
-    @State var items = [Int]()
-    
+    @State private var historyList = [String]()
+    @State private var messages = [Store.Message]()
+    @State private var tableHeight : CGFloat = .infinity
+    @State private var heightForInput: CGFloat = 30
+    @State private var question: String = ""
+    @State private var store = Store()
+    @State private var response: String = ""
+    @State private var loadedOnce: Bool = true
+    @State private var showsAlert = false
+    @State private var loading = DotView()
+    @State private var items = [Int]()
+    @State private var showingOptions = false
+
     
     var body: some View {
 
@@ -33,7 +35,8 @@ struct ChatView: View {
                         .font(Font.custom("Helvetica Neue", size: 30))
                     
                     Spacer()
-                    
+                    Spacer()
+
                     Button(action: {
                         //store.deleteHistory()
                         //historyList = [String]()
@@ -42,6 +45,22 @@ struct ChatView: View {
                     }) {
                         HStack {
                             Image(systemName: "trash")
+                        }
+                    }
+                    .padding(.pi*3)
+                    .foregroundColor(.white)
+                    .background(Color(uiColor: .systemBlue))
+                    .cornerRadius(.infinity)
+                    
+                    
+                    Button(action: {
+                        //store.deleteHistory()
+                        //historyList = [String]()
+                        showingOptions = !showingOptions
+                        
+                    }) {
+                        HStack {
+                            Image(systemName: "checkmark.bubble")
                         }
                     }
                     .padding(.pi*3)
@@ -80,6 +99,24 @@ struct ChatView: View {
                         ForEach(messages.indices, id: \.self) { rowIndex in
                             HStack {
                                 
+                                // delete button on the left side of a row
+                                if (showingOptions) {
+                                    Button(action: {
+
+                                    }) {
+                                        HStack {
+                                            Image(systemName: "circle")
+                                        }
+                                    }
+                                    .padding(.pi*2)
+                                    .foregroundColor(Color(uiColor: .systemGray))
+                                    //.background(Color(uiColor: .systemGray))
+                                    .cornerRadius(.infinity)
+                                    
+                                    Spacer()
+                                }
+                                
+                                                                
                                 if (messages[rowIndex].messageOriginMe) {
                                     Spacer()
                                         .frame(width: 10)
@@ -91,12 +128,14 @@ struct ChatView: View {
                                             .foregroundColor(Color(uiColor: .white))
                                             .cornerRadius(16)
                                             .font(Font.custom("Helvetica Neue", size: 20))
+    
                                                                             
                                         Label(getDate(recDate: messages[rowIndex].messageDate), systemImage: "calendar.badge.clock")
                                             .labelStyle(.titleOnly)
                                             .font(Font.custom("Helvetica Neue", size: 12))
                                     }
                                     .textSelection(.enabled)
+                                    
                                 } else {
                                     if (messages[rowIndex].messageBody == "...") {
                                         LoadingView()
@@ -169,39 +208,41 @@ struct ChatView: View {
                             })
                         
                         Button(action: {
-                            // add new question
-                            var oneMessage = Store.Message.init(messageBody: question, messageOriginMe: true, messageDate: Date())
-                            messages.append(oneMessage)
-                            store.saveMessages(messages: messages)
-                            print("items: [\(items)]")
+                            if (question != "") {
+                                // add new question
+                                var oneMessage = Store.Message.init(messageBody: question, messageOriginMe: true, messageDate: Date())
+                                messages.append(oneMessage)
+                                store.saveMessages(messages: messages)
+                                print("items: [\(items)]")
 
-                            if (items.last == nil) { items.append(0) }
-                            else { items.append(items.last! + 1) }
+                                if (items.last == nil) { items.append(0) }
+                                else { items.append(items.last! + 1) }
 
-                            // add loading indicator
-                            oneMessage = Store.Message.init(messageBody: "...", messageOriginMe: false, messageDate: Date())
-                            messages = clearMessages(messages: messages)
-                            messages.append(oneMessage)
+                                // add loading indicator
+                                oneMessage = Store.Message.init(messageBody: "...", messageOriginMe: false, messageDate: Date())
+                                messages = clearMessages(messages: messages)
+                                messages.append(oneMessage)
 
-                            items.append(items.last! + 1)
-                            store.context(newQuestion: question) { (result: Result) in
-                                switch result {
-                                case .success(var text):
-                                    print("PRINT [\(text)]")
-                                    if (text == "") {
-                                        response = "I already answered that"
-                                    } else {
-                                        response = text
-                                        messages = clearMessages(messages: messages)
-                                        oneMessage = Store.Message.init(messageBody: text, messageOriginMe: false, messageDate: Date())
-                                        messages.append(oneMessage)
-                                        store.saveMessages(messages: messages)
-                                        question = ""
-                                        items.removeLast()
-                                        items.append(items.last! + 1)
+                                items.append(items.last! + 1)
+                                store.context(newQuestion: question) { (result: Result) in
+                                    switch result {
+                                    case .success(var text):
+                                        print("PRINT [\(text)]")
+                                        if (text == "") {
+                                            response = "I already answered that"
+                                        } else {
+                                            response = text
+                                            messages = clearMessages(messages: messages)
+                                            oneMessage = Store.Message.init(messageBody: text, messageOriginMe: false, messageDate: Date())
+                                            messages.append(oneMessage)
+                                            store.saveMessages(messages: messages)
+                                            question = ""
+                                            items.removeLast()
+                                            items.append(items.last! + 1)
+                                        }
+                                    case .failure(let error):
+                                        print("Error generating text: \(error)")
                                     }
-                                case .failure(let error):
-                                    print("Error generating text: \(error)")
                                 }
                             }
                         }) {
