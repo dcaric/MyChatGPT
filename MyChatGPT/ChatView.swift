@@ -8,6 +8,7 @@
 import SwiftUI
 import AVFoundation
 import Foundation
+import os
 
 struct ChatView: View {
     
@@ -140,17 +141,15 @@ struct ChatView: View {
                                     Button(action: {
                                         if let indexOfDelMsg = messegesToDelete.firstIndex(of: messages[rowIndex].messageId) {
                                             messegesToDelete.remove(at: indexOfDelMsg)
+                                            os_log("remove) rowIndex:\(rowIndex)  count:\(messegesToDelete.count)")
                                         } else {
                                             messegesToDelete.append(messages[rowIndex].messageId)
+                                            os_log("add) rowIndex:\(rowIndex)  count:\(messegesToDelete.count)")
                                         }
                                     }) {
                                         HStack {
-                                            if (rowIndex <= messegesToDelete.count && messegesToDelete.count > 0) {
-                                                if let msgToDel = messegesToDelete[rowIndex] {
-                                                    if (msgToDel == messages[rowIndex].messageId) {
-                                                        Image(systemName: "checkmark.circle.fill")
-                                                    }
-                                                }
+                                            if messegesToDelete.contains(messages[rowIndex].messageId) {
+                                                Image(systemName: "checkmark.circle.fill")
                                             } else {
                                                 Image(systemName: "circle")
                                             }
