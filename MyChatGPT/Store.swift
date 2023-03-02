@@ -270,12 +270,13 @@ public class Store: ObservableObject {
         var messageBody: String
         var messageOriginMe: Bool
         var messageDate: Date
+        var messageId: String
         
-        init(messageBody: String, messageOriginMe: Bool, messageDate: Date) {
+        init(messageBody: String, messageOriginMe: Bool, messageDate: Date, messageId: String) {
             self.messageBody = messageBody
             self.messageOriginMe = messageOriginMe
             self.messageDate = messageDate
-
+            self.messageId = messageId
         }
     }
     

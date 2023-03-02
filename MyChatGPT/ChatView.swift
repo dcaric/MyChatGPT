@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AVFoundation
+import Foundation
 
 struct ChatView: View {
     
@@ -22,6 +23,7 @@ struct ChatView: View {
     @State private var loading = DotView()
     @State private var items = [Int]()
     @State private var showingOptions = false
+    @State private var messegesToDelete = [String]()
 
     
     var body: some View {
@@ -57,7 +59,7 @@ struct ChatView: View {
                         //store.deleteHistory()
                         //historyList = [String]()
                         showingOptions = !showingOptions
-                        
+                        messegesToDelete = [String]()
                     }) {
                         HStack {
                             Image(systemName: "checkmark.bubble")
@@ -71,22 +73,56 @@ struct ChatView: View {
                     Spacer()
                 }
                 .alert(isPresented: $showsAlert) {
-                    Alert(
-                        title: Text("Delete all chat history"),
+                    var title = "Delete all chat history"
+                    if (showingOptions) {
+                        title = "Delete selected"
+                    }
+                    return Alert(
+                        title: Text(title),
                         message: Text(""),
                         primaryButton: .default(
-                            Text("Cancel")
+                            Text("Cancel"),
+                            action: {
+                                showsAlert = false
+                                showingOptions = false
+
+                            }
                         ),
                         secondaryButton: .destructive(
                             Text("Delete"),
                             action: {
                                 showsAlert = false
-                                store.deleteHistory()
-                                historyList = [String]()
-                                items = [Int]()
-                                messages = [Store.Message]()
-                                store.saveMessages(messages: messages)
-                                loadValues()
+                                if (showingOptions) {
+                                    showingOptions = false
+                                    items = [Int]()
+                                    items.append(0)
+
+                                    var newMessages = [Store.Message]()
+                                    newMessages = messages
+                                    for message in messages {
+                                        print("*** message: \(message)")
+
+                                        if let index = messegesToDelete.firstIndex(of: message.messageId) {
+                                            print("foound at inde: \(index)")
+                                            newMessages.remove(at: index)
+                                        }
+                                    }
+                                    messages = [Store.Message]()
+                                    for message in newMessages {
+                                        print("message: \(message)")
+
+                                        messages.append(message)
+                                        items.append(items.last! + 1)
+                                    }
+                                    store.saveMessages(messages: messages)
+                                } else {
+                                    store.deleteHistory()
+                                    historyList = [String]()
+                                    items = [Int]()
+                                    messages = [Store.Message]()
+                                    store.saveMessages(messages: messages)
+                                    loadValues()
+                                }
                             }
                         )
                     )
@@ -102,10 +138,22 @@ struct ChatView: View {
                                 // delete button on the left side of a row
                                 if (showingOptions) {
                                     Button(action: {
-
+                                        if let indexOfDelMsg = messegesToDelete.firstIndex(of: messages[rowIndex].messageId) {
+                                            messegesToDelete.remove(at: indexOfDelMsg)
+                                        } else {
+                                            messegesToDelete.append(messages[rowIndex].messageId)
+                                        }
                                     }) {
                                         HStack {
-                                            Image(systemName: "circle")
+                                            if (rowIndex <= messegesToDelete.count && messegesToDelete.count > 0) {
+                                                if let msgToDel = messegesToDelete[rowIndex] {
+                                                    if (msgToDel == messages[rowIndex].messageId) {
+                                                        Image(systemName: "checkmark.circle.fill")
+                                                    }
+                                                }
+                                            } else {
+                                                Image(systemName: "circle")
+                                            }
                                         }
                                     }
                                     .padding(.pi*2)
@@ -167,9 +215,9 @@ struct ChatView: View {
                     //HStack {
                     //    Button("Last!") { withAnimation { scrollProxy.scrollTo(items.last!) } }
                     //}
-                    .onTapGesture(count: 1) {
-                        hideKeyboard()
-                    }
+                    //.onTapGesture(count: 1) {
+                    //    hideKeyboard()
+                    //}
                     .onChange(of: items, perform: { _ in
                         if (items.last != nil) { scrollProxy.scrollTo(items.last!) }
                     })
@@ -184,11 +232,11 @@ struct ChatView: View {
                             .frame(height: heightForInput)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .overlay(
-                                RoundedRectangle(cornerRadius: 16)
+                                RoundedRectangle(cornerRadius: 8)
                                     .stroke(Color(uiColor: .systemGray5), lineWidth: 4)
                             )
-                            .frame(width: UIScreen.main.bounds.size.width - 120)
-                            .padding(.all)
+                            .frame(width: UIScreen.main.bounds.size.width - 100)
+                            .padding()
                             .font(Font.custom("Helvetica Neue", size: 15))
                         
                         Text(question)
@@ -210,7 +258,8 @@ struct ChatView: View {
                         Button(action: {
                             if (question != "") {
                                 // add new question
-                                var oneMessage = Store.Message.init(messageBody: question, messageOriginMe: true, messageDate: Date())
+                                let identifier = UUID().uuidString
+                                var oneMessage = Store.Message.init(messageBody: question, messageOriginMe: true, messageDate: Date(), messageId: UUID().uuidString)
                                 messages.append(oneMessage)
                                 store.saveMessages(messages: messages)
                                 print("items: [\(items)]")
@@ -219,7 +268,7 @@ struct ChatView: View {
                                 else { items.append(items.last! + 1) }
 
                                 // add loading indicator
-                                oneMessage = Store.Message.init(messageBody: "...", messageOriginMe: false, messageDate: Date())
+                                oneMessage = Store.Message.init(messageBody: "...", messageOriginMe: false, messageDate: Date(), messageId: UUID().uuidString)
                                 messages = clearMessages(messages: messages)
                                 messages.append(oneMessage)
 
@@ -233,7 +282,7 @@ struct ChatView: View {
                                         } else {
                                             response = text
                                             messages = clearMessages(messages: messages)
-                                            oneMessage = Store.Message.init(messageBody: text, messageOriginMe: false, messageDate: Date())
+                                            oneMessage = Store.Message.init(messageBody: text, messageOriginMe: false, messageDate: Date(), messageId: UUID().uuidString)
                                             messages.append(oneMessage)
                                             store.saveMessages(messages: messages)
                                             question = ""
