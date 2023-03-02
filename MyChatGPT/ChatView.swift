@@ -95,31 +95,25 @@ struct ChatView: View {
                                 showsAlert = false
                                 if (showingOptions) {
                                     showingOptions = false
-                                    items = [Int]()
-                                    items.append(0)
 
                                     var newMessages = [Store.Message]()
-                                    newMessages = messages
                                     for message in messages {
                                         print("*** message: \(message)")
-
-                                        if let index = messegesToDelete.firstIndex(of: message.messageId) {
-                                            print("foound at inde: \(index)")
-                                            newMessages.remove(at: index)
+                                        var delete: Bool = false
+                                        if (messegesToDelete.contains(message.messageId)) {
+                                            print("Message to delete id: \(message.messageId)")
+                                            delete = true
+                                        }
+                                        if (!delete) {
+                                            newMessages.append(message)
                                         }
                                     }
-                                    messages = [Store.Message]()
-                                    for message in newMessages {
-                                        print("message: \(message)")
-
-                                        messages.append(message)
-                                        items.append(items.last! + 1)
-                                    }
+                                    messages = newMessages
                                     store.saveMessages(messages: messages)
+                                    loadValues()
                                 } else {
                                     store.deleteHistory()
                                     historyList = [String]()
-                                    items = [Int]()
                                     messages = [Store.Message]()
                                     store.saveMessages(messages: messages)
                                     loadValues()
@@ -145,6 +139,7 @@ struct ChatView: View {
                                         } else {
                                             messegesToDelete.append(messages[rowIndex].messageId)
                                             os_log("add) rowIndex:\(rowIndex)  count:\(messegesToDelete.count)")
+                                            os_log("messageId:\(messages[rowIndex].messageId)")
                                         }
                                     }) {
                                         HStack {
@@ -211,9 +206,9 @@ struct ChatView: View {
                             
                         }
                     })
-                    //HStack {
-                    //    Button("Last!") { withAnimation { scrollProxy.scrollTo(items.last!) } }
-                    //}
+                    HStack {
+                        Button("Last!") { withAnimation { scrollProxy.scrollTo(items.last!) } }
+                    }
                     //.onTapGesture(count: 1) {
                     //    hideKeyboard()
                     //}
