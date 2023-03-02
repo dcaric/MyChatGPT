@@ -206,9 +206,9 @@ struct ChatView: View {
                             
                         }
                     })
-                    HStack {
-                        Button("Last!") { withAnimation { scrollProxy.scrollTo(items.last!) } }
-                    }
+                    //HStack {
+                    //    Button("Last!") { withAnimation { scrollProxy.scrollTo(items.last!) } }
+                    //}
                     //.onTapGesture(count: 1) {
                     //    hideKeyboard()
                     //}
