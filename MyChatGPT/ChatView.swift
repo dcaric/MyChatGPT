@@ -25,6 +25,7 @@ struct ChatView: View {
     @State private var items = [Int]()
     @State private var showingOptions = false
     @State private var messegesToDelete = [String]()
+    @State private var deleteOngoing: Bool = false
 
     
     var body: some View {
@@ -110,12 +111,14 @@ struct ChatView: View {
                                     }
                                     messages = newMessages
                                     store.saveMessages(messages: messages)
+                                    deleteOngoing = true
                                     loadValues()
                                 } else {
                                     store.deleteHistory()
                                     historyList = [String]()
                                     messages = [Store.Message]()
                                     store.saveMessages(messages: messages)
+                                    deleteOngoing = true
                                     loadValues()
                                 }
                             }
@@ -133,14 +136,16 @@ struct ChatView: View {
                                 // delete button on the left side of a row
                                 if (showingOptions) {
                                     Button(action: {
-                                        if let indexOfDelMsg = messegesToDelete.firstIndex(of: messages[rowIndex].messageId) {
-                                            messegesToDelete.remove(at: indexOfDelMsg)
-                                            os_log("remove) rowIndex:\(rowIndex)  count:\(messegesToDelete.count)")
-                                        } else {
-                                            messegesToDelete.append(messages[rowIndex].messageId)
-                                            os_log("add) rowIndex:\(rowIndex)  count:\(messegesToDelete.count)")
-                                            os_log("messageId:\(messages[rowIndex].messageId)")
-                                        }
+                                        //withAnimation(.easeInOut(duration: 4)) {
+                                            if let indexOfDelMsg = messegesToDelete.firstIndex(of: messages[rowIndex].messageId) {
+                                                messegesToDelete.remove(at: indexOfDelMsg)
+                                                os_log("remove) rowIndex:\(rowIndex)  count:\(messegesToDelete.count)")
+                                            } else {
+                                                messegesToDelete.append(messages[rowIndex].messageId)
+                                                os_log("add) rowIndex:\(rowIndex)  count:\(messegesToDelete.count)")
+                                                os_log("messageId:\(messages[rowIndex].messageId)")
+                                            }
+                                        //}
                                     }) {
                                         HStack {
                                             if messegesToDelete.contains(messages[rowIndex].messageId) {
@@ -202,6 +207,8 @@ struct ChatView: View {
                                 }
                             }
                             .frame(maxWidth: .infinity, alignment: messages[rowIndex].messageOriginMe ? .trailing : .leading)
+                            .animation(.easeInOut(duration: 0.3), value: showingOptions)
+                            .transition(.slide)
 
                             
                         }
@@ -213,7 +220,7 @@ struct ChatView: View {
                     //    hideKeyboard()
                     //}
                     .onChange(of: items, perform: { _ in
-                        if (items.last != nil) { scrollProxy.scrollTo(items.last!) }
+                        //if (!deleteOngoing && items.last != nil) { scrollProxy.scrollTo(items.last!) }
                     })
                 }
                 .padding(.all)
@@ -341,6 +348,7 @@ struct ChatView: View {
             items.append(count)
             count += 1
         }
+        deleteOngoing = false
     }
     
     
