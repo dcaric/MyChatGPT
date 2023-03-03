@@ -163,48 +163,8 @@ struct ChatView: View {
                                     Spacer()
                                 }
                                 
-                                                                
-                                if (messages[rowIndex].messageOriginMe) {
-                                    Spacer()
-                                        .frame(width: 10)
-                                    VStack {
-                                        Text(messages[rowIndex].messageBody)
-                                            .padding()
-                                            .frame(alignment: .trailing)
-                                            .background(Color(uiColor: .systemBlue))
-                                            .foregroundColor(Color(uiColor: .white))
-                                            .cornerRadius(16)
-                                            .font(Font.custom("Helvetica Neue", size: 20))
-    
-                                                                            
-                                        Label(getDate(recDate: messages[rowIndex].messageDate), systemImage: "calendar.badge.clock")
-                                            .labelStyle(.titleOnly)
-                                            .font(Font.custom("Helvetica Neue", size: 12))
-                                    }
-                                    .textSelection(.enabled)
-                                    
-                                } else {
-                                    if (messages[rowIndex].messageBody == "...") {
-                                        LoadingView()
-
-                                    } else {
-                                        VStack {
-                                            Text(messages[rowIndex].messageBody)
-                                                .padding()
-                                                .background(Color(uiColor: .lightGray))
-                                                .foregroundColor(Color(uiColor: .black))
-                                                .cornerRadius(16)
-                                                .font(Font.custom("Helvetica Neue", size: 20))
-                                            
-                                            Label(getDate(recDate: messages[rowIndex].messageDate), systemImage: "calendar.badge.clock")
-                                                .labelStyle(.titleOnly)
-                                                .font(Font.custom("Helvetica Neue", size: 12))
-                                        }
-                                        .textSelection(.enabled)
-                                    }
-                                    Spacer()
-                                        .frame(width: 10)
-                                }
+                                MessageBubble(text: messages[rowIndex].messageBody, messageDate: messages[rowIndex].messageDate, isCurrentUser: messages[rowIndex].messageOriginMe)
+                                
                             }
                             .frame(maxWidth: .infinity, alignment: messages[rowIndex].messageOriginMe ? .trailing : .leading)
                             .animation(.easeInOut(duration: 0.3), value: showingOptions)
@@ -220,7 +180,7 @@ struct ChatView: View {
                     //    hideKeyboard()
                     //}
                     .onChange(of: items, perform: { _ in
-                        //if (!deleteOngoing && items.last != nil) { scrollProxy.scrollTo(items.last!) }
+                        if (!deleteOngoing && items.last != nil) { scrollProxy.scrollTo(items.last!) }
                     })
                 }
                 .padding(.all)
