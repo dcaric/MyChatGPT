@@ -10,6 +10,19 @@ import AVFoundation
 import Foundation
 import os
 
+class ScrollViewDelegate: NSObject, UIScrollViewDelegate {
+    @Binding var scrollPosition: CGFloat
+    
+    init(scrollPosition: Binding<CGFloat>) {
+        _scrollPosition = scrollPosition
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrollPosition = scrollView.contentOffset.y
+    }
+}
+
+
 struct ChatView: View {
     
     @State private var historyList = [String]()
@@ -26,6 +39,9 @@ struct ChatView: View {
     @State private var showingOptions = false
     @State private var messegesToDelete = [String]()
     @State private var deleteOngoing: Bool = false
+    @State private var questionAsked: Bool = false
+
+    @State private var scrollPosition: CGFloat = 0
 
     
     var body: some View {
@@ -129,50 +145,52 @@ struct ChatView: View {
                 
                 
                 ScrollViewReader { scrollProxy in
-                    ScrollView (.vertical, showsIndicators: false, content: {
-                        ForEach(messages.indices, id: \.self) { rowIndex in
-                            HStack {
-                                
-                                // delete button on the left side of a row
-                                if (showingOptions) {
-                                    Button(action: {
-                                        //withAnimation(.easeInOut(duration: 4)) {
-                                            if let indexOfDelMsg = messegesToDelete.firstIndex(of: messages[rowIndex].messageId) {
-                                                messegesToDelete.remove(at: indexOfDelMsg)
-                                                os_log("remove) rowIndex:\(rowIndex)  count:\(messegesToDelete.count)")
-                                            } else {
-                                                messegesToDelete.append(messages[rowIndex].messageId)
-                                                os_log("add) rowIndex:\(rowIndex)  count:\(messegesToDelete.count)")
-                                                os_log("messageId:\(messages[rowIndex].messageId)")
-                                            }
-                                        //}
-                                    }) {
-                                        HStack {
-                                            if messegesToDelete.contains(messages[rowIndex].messageId) {
-                                                Image(systemName: "checkmark.circle.fill")
-                                            } else {
-                                                Image(systemName: "circle")
+                    ScrollView {
+                        LazyVStack {
+                            ForEach(messages.indices, id: \.self) { rowIndex in
+                                HStack {
+                                    
+                                    // delete button on the left side of a row
+                                    if (showingOptions) {
+                                        Button(action: {
+                                            //withAnimation(.easeInOut(duration: 4)) {
+                                                if let indexOfDelMsg = messegesToDelete.firstIndex(of: messages[rowIndex].messageId) {
+                                                    messegesToDelete.remove(at: indexOfDelMsg)
+                                                    os_log("remove) rowIndex:\(rowIndex)  count:\(messegesToDelete.count)")
+                                                } else {
+                                                    messegesToDelete.append(messages[rowIndex].messageId)
+                                                    os_log("add) rowIndex:\(rowIndex)  count:\(messegesToDelete.count)")
+                                                    os_log("messageId:\(messages[rowIndex].messageId)")
+                                                }
+                                            //}
+                                        }) {
+                                            HStack {
+                                                if messegesToDelete.contains(messages[rowIndex].messageId) {
+                                                    Image(systemName: "checkmark.circle.fill")
+                                                } else {
+                                                    Image(systemName: "circle")
+                                                }
                                             }
                                         }
+                                        .padding(.pi*2)
+                                        .foregroundColor(Color(uiColor: .systemGray))
+                                        //.background(Color(uiColor: .systemGray))
+                                        .cornerRadius(.infinity)
+                                        
+                                        Spacer()
                                     }
-                                    .padding(.pi*2)
-                                    .foregroundColor(Color(uiColor: .systemGray))
-                                    //.background(Color(uiColor: .systemGray))
-                                    .cornerRadius(.infinity)
                                     
-                                    Spacer()
+                                    MessageBubble(text: messages[rowIndex].messageBody, messageDate: messages[rowIndex].messageDate, isCurrentUser: messages[rowIndex].messageOriginMe)
+                                    
                                 }
-                                
-                                MessageBubble(text: messages[rowIndex].messageBody, messageDate: messages[rowIndex].messageDate, isCurrentUser: messages[rowIndex].messageOriginMe)
+                                .frame(maxWidth: .infinity, alignment: messages[rowIndex].messageOriginMe ? .trailing : .leading)
+                                .animation(.easeInOut(duration: 0.3), value: showingOptions)
+                                .transition(.slide)
+
                                 
                             }
-                            .frame(maxWidth: .infinity, alignment: messages[rowIndex].messageOriginMe ? .trailing : .leading)
-                            .animation(.easeInOut(duration: 0.3), value: showingOptions)
-                            .transition(.slide)
-
-                            
                         }
-                    })
+                    }
                     //HStack {
                     //    Button("Last!") { withAnimation { scrollProxy.scrollTo(items.last!) } }
                     //}
@@ -219,7 +237,6 @@ struct ChatView: View {
                         Button(action: {
                             if (question != "") {
                                 // add new question
-                                let identifier = UUID().uuidString
                                 var oneMessage = Store.Message.init(messageBody: question, messageOriginMe: true, messageDate: Date(), messageId: UUID().uuidString)
                                 messages.append(oneMessage)
                                 store.saveMessages(messages: messages)
@@ -233,10 +250,12 @@ struct ChatView: View {
                                 messages = clearMessages(messages: messages)
                                 messages.append(oneMessage)
 
+                                let tempQuestion: String = question
+                                //question = ""
                                 items.append(items.last! + 1)
-                                store.context(newQuestion: question) { (result: Result) in
+                                store.context(newQuestion: tempQuestion) { (result: Result) in
                                     switch result {
-                                    case .success(var text):
+                                    case .success(let text):
                                         print("PRINT [\(text)]")
                                         if (text == "") {
                                             response = "I already answered that"
@@ -317,6 +336,24 @@ struct ChatView: View {
         formatter.dateFormat = "EEEE, MMM d yyyy, HH:mm"
         return formatter.string(from: recDate)
     }
+    
+    func findScrollView() -> UIScrollView? {
+        // recursively search the view hierarchy for a UIScrollView
+        func find(in view: UIView) -> UIScrollView? {
+            if let scrollView = view as? UIScrollView {
+                return scrollView
+            } else {
+                for subview in view.subviews {
+                    if let scrollView = find(in: subview) {
+                        return scrollView
+                    }
+                }
+                return nil
+            }
+        }
+        return find(in: UIApplication.shared.windows.first?.rootViewController?.view ?? UIView())
+    }
+
 }
 
 struct ChatView_Previews: PreviewProvider {
