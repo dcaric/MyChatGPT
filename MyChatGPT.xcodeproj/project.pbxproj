@@ -20,6 +20,7 @@
 		4F9B7F4929ABA2C1000F2EBB /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9B7F4829ABA2C1000F2EBB /* Store.swift */; };
 		4F9B7F4B29ABA3D6000F2EBB /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 4F9B7F4A29ABA3D5000F2EBB /* Podfile */; };
 		4F9B7F4D29AD31D4000F2EBB /* DotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9B7F4C29AD31D4000F2EBB /* DotView.swift */; };
+		679B4A3A29B40E0900EA32AF /* ListOfMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679B4A3929B40E0800EA32AF /* ListOfMessages.swift */; };
 		67C4D58829B2999C006F45D0 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C4D58729B2999C006F45D0 /* MessageBubble.swift */; };
 		67C4D58A29B2B464006F45D0 /* DynamicTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C4D58929B2B464006F45D0 /* DynamicTextField.swift */; };
 		93E5A60944CD1628F39040C3 /* Pods_MyChatGPT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99A3974A1B8883E76CF36BFD /* Pods_MyChatGPT.framework */; };
@@ -62,6 +63,7 @@
 		4F9B7F4829ABA2C1000F2EBB /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		4F9B7F4A29ABA3D5000F2EBB /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		4F9B7F4C29AD31D4000F2EBB /* DotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DotView.swift; sourceTree = "<group>"; };
+		679B4A3929B40E0800EA32AF /* ListOfMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListOfMessages.swift; sourceTree = "<group>"; };
 		67C4D58729B2999C006F45D0 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		67C4D58929B2B464006F45D0 /* DynamicTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicTextField.swift; sourceTree = "<group>"; };
 		99A3974A1B8883E76CF36BFD /* Pods_MyChatGPT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyChatGPT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -126,6 +128,7 @@
 		4F9B7F1929AB9EC2000F2EBB /* MyChatGPT */ = {
 			isa = PBXGroup;
 			children = (
+				679B4A3929B40E0800EA32AF /* ListOfMessages.swift */,
 				4F9B7F1A29AB9EC2000F2EBB /* MyChatGPTApp.swift */,
 				4F9B7F1C29AB9EC2000F2EBB /* ContentView.swift */,
 				4F9B7F1E29AB9EC4000F2EBB /* Assets.xcassets */,
@@ -429,6 +432,7 @@
 			files = (
 				4F9B7F4929ABA2C1000F2EBB /* Store.swift in Sources */,
 				4F9B7F4729ABA20D000F2EBB /* ChatView.swift in Sources */,
+				679B4A3A29B40E0900EA32AF /* ListOfMessages.swift in Sources */,
 				4F9B7F4529ABA017000F2EBB /* Settings.swift in Sources */,
 				67C4D58829B2999C006F45D0 /* MessageBubble.swift in Sources */,
 				4F9B7F4D29AD31D4000F2EBB /* DotView.swift in Sources */,
