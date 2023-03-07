@@ -11,7 +11,9 @@ import SwiftyJSON
 
 public class Store: ObservableObject {
     
-    let trasholdForZipingHistory: Int = 200
+    let trasholdForZipingHistory: Int = 50
+    let lastNConversations: Int = 5
+
     
     //**************************************************************************************
     // MARK: OPENAI HTTP REQUEST AND RESPONSE
@@ -45,15 +47,26 @@ public class Store: ObservableObject {
             coversationOld = conversationHistory
         }
         print("1) coversationOld: \(coversationOld)")
-
         
+        var lastNConversationStr: String = ""
+        let store = Store()
+        let messages: [Store.Message] = store.readMessages()
+        let counter = messages.count
+        for i in counter-lastNConversations...counter-2 {
+            let correctedTxt = messages[i].messageBody.replacingOccurrences(of: "\n", with: "")
 
-        print("1) wholeContext: \(wholeContext)")
+            lastNConversationStr = lastNConversationStr + correctedTxt + ">"
+        }
+        let correctedTxt = messages.last!.messageBody.replacingOccurrences(of: "\n", with: "")
+        lastNConversationStr = lastNConversationStr + correctedTxt
+
+
+        print("1) lastNConversationStr: \(lastNConversationStr)")
         
         let url = "https://api.openai.com/v1/completions"
         let parameters: [String: Any] = [
             "model": "text-davinci-003",
-            "prompt": wholeContext,
+            "prompt": lastNConversationStr,
             "temperature": 0.7,
             "max_tokens": 1000,
             "stop" : "None",
